@@ -68,29 +68,36 @@ function myTweets() {
 //If "movie-this" is called, request to grab OMDB info: 
 function thisMovie() {
 
-    if (value !== ""){
+    if (value !== "") {
         value = "Mr. Nobody";
         'http://www.omdbapi.com/?apikey=eb3fa0d5&t=' + value;
     }
-        request('http://www.omdbapi.com/?apikey=eb3fa0d5&t=' + value,
-            function (error, response, body) {
-                console.log("Title: " + JSON.parse(body).Title);
-                console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-                console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
-                console.log("Country: " + JSON.parse(body).Country);
-                console.log("Language: " + JSON.parse(body).Language);
-                console.log("Actors: " + JSON.parse(body).Actors);
-                console.log("Plot: " + JSON.parse(body).Plot);
-            });
+    request('http://www.omdbapi.com/?apikey=eb3fa0d5&t=' + value,
+        function (error, response, body) {
+            console.log("Title: " + JSON.parse(body).Title);
+            console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+            console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
+            console.log("Country: " + JSON.parse(body).Country);
+            console.log("Language: " + JSON.parse(body).Language);
+            console.log("Actors: " + JSON.parse(body).Actors);
+            console.log("Plot: " + JSON.parse(body).Plot);
+        });
 };
 
 //If "spotify-this-song" is called, this function is used:
-function thisSong() {
+function thisSong(song) {
 
     var spotify = new Spotify({
         id: process.env.SPOTIFY_ID,
         secret: process.env.SPOTIFY_SECRET
     });
+
+    // If no song is provided, LIRI defaults to 'The Sign' by Ace Of Base
+    if (song === '') {
+        search = 'The Sign';
+    } else {
+        search = song;
+    }
 
     spotify.search({ type: 'track', limit: 1, query: value }, function (err, data) {
         if (err) {
