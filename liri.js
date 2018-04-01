@@ -37,7 +37,7 @@ switch (liriCommand) {
         thisMovie(value);
         break;
 
-    case "do-what-it-says";
+    case "do-what-it-says":
         doWhatItSays();
         break;
 }
@@ -62,9 +62,9 @@ function thisMovie(value) {
     var thisMovie = "";
 
     // Loop through all the words in the node argument
-    for (var i = 2; i < value.length; i++) {
+    for (var i = 3; i < value.length; i++) {
 
-        if (i > 2 && i < value.length) {
+        if (i > 3 && i < value.length) {
 
             thisMovie = thisMovie + "+" + value[i];
 
@@ -84,7 +84,13 @@ function thisMovie(value) {
     }
 
     request(omdbURL, function (error, response, body) {
-        console.log("Release Year: " + JSON.parse(body).Year);
+        console.log("Title: " + JSON.parse(body).Title);
+        console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+        console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
+        console.log("Country: " + JSON.parse(body).Country);
+        console.log("Language: " + JSON.parse(body).Language);
+        console.log("Actors: " + JSON.parse(body).Actors);
+        console.log("Plot: " + JSON.parse(body).Plot);
     });
 
 };
@@ -104,10 +110,9 @@ function thisSong(trackName) {
 
         console.log(data);
     });
-    console.log(thisSong);
 };
 
-// This "do-what-it-says" function is ran:
+//If "do-what-it-says" is called, this function is used:
 function doWhatItSays() {
 
     // Running the readFile module that's inside of fs.
