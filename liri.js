@@ -17,63 +17,61 @@ var request = require("request");
 var twitter = require("twitter");
 var spotify = require("node-spotify-api");
 
-// Take in the command line arguments
-var nodeArgs = process.argv;
 
-// Create an empty string for holding the commands
-var liriCommands = "";
+// The first will be the liri command
+// The second will be the specific request
+var command = process.argv[2];
+var value = process.argv[3];
 
-// Capture all the words in the commands (again ignoring the first two Node arguments)
-for (var i = 2; i < nodeArgs.length; i++) {
+// See exercise 15 - Bank
+switch (command) {
+    case "my-tweets":
+        myTweets();
+        break;
 
-    // Build a string with the commands.
-    liriCommands = liriCommands + "" + liriCommands[i];
+    case "spotify-this-song":
+        thisSong(value);
+        break;
 
-    debugger;
+    case "movie-this":
+        thisMovie(value);
+        break;
+
+    case "do-what-it-says":
+        doWhat();
+        break;
+}
 
 
-    // See exercise 15 - Bank
+//If "my-tweets" is called, this function:
+function myTweets() {
 
-    switch (liriCommands) {
-        case "my-tweets":
+    var twitter = new Twitter(keys.twitter);
+
+    var params = { screen_name: 'thehodge36', count: 10 };
+    client.get('statuses/user_timeline', params, function (error, tweets, response) {
+        if (!error) {
             console.log(tweets);
-            myTweets();
-            break;
-
-        case "spotify-this-song":
-            thisSong();
-            break;
-
-        case "movie-this":
-            thisMovie();
-            break;
-
-        case "do-what-it-says":
-            doWhat();
-            break;
-    }
-
+        }
+    });
 };
 
+//If "movie-this" is called, request to grab OMDB
+function thisMovie(movie) {
 
-//Twitter 
-var client = new Twitter(keys.twitter);
-
-var params = { screen_name: 'thehodge36', count: 10 };
-client.get('statuses/user_timeline', params, function (error, tweets, response) {
-    if (!error) {
-        console.log(tweets);
+    if (movie === undefined){
+        movie = "Mr. Nobody";
     }
-});
 
-//Request to grab OMDB
-var omdbURL = 'http://www.omdbapi.com/?apikey=eb3fa0d5&' + thisMovie;
+    var omdbURL = 'http://www.omdbapi.com/?apikey=eb3fa0d5&' + movie;
 
-request(omdbURL, function (error, response, body) {
-    console.log('error:', error); // Print the error if one occurred
-    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', body); // Print the HTML.
-});
+    request(omdbURL, function (error, response, body) {
+        console.log('error:', error); 
+        console.log('statusCode:', response && response.statusCode);
+        console.log('body:', body); 
+    });
+};
+
 
 //Spotify
 var spotify = new Spotify(keys.spotify);
