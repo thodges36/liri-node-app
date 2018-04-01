@@ -52,7 +52,7 @@ function myTweets() {
         access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
     });
 
-    var params = { screen_name: 'thehodge36'};
+    var params = { screen_name: 'thehodge36', count: 20};
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
             for (var i = 0; i < tweets.length; i++) {
