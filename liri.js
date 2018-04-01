@@ -30,11 +30,11 @@ switch (liriCommand) {
         break;
 
     case "spotify-this-song":
-        thisSong(value);
+        thisSong();
         break;
 
     case "movie-this":
-        thisMovie(value);
+        thisMovie();
         break;
 
     case "do-what-it-says":
@@ -52,7 +52,7 @@ function myTweets() {
         access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
     });
 
-    var params = { screen_name: 'thehodge36', count: 20};
+    var params = { screen_name: 'thehodge36', count: 20 };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
             for (var i = 0; i < tweets.length; i++) {
@@ -60,48 +60,25 @@ function myTweets() {
                 console.log("Created at: " + tweets[i].created_at);
                 console.log("Text: " + tweets[i].text);
                 console.log("--------");
-              }        
             }
+        }
     });
 };
 
 //If "movie-this" is called, request to grab OMDB info: 
-function thisMovie(value) {
+function thisMovie() {
 
-    // Create an empty variable for holding the movie name
-    var thisMovie = "";
-
-    // Loop through all the words in the node argument
-    for (var i = 3; i < value.length; i++) {
-
-        if (i > 3 && i < value.length) {
-
-            thisMovie = thisMovie + "+" + value[i];
-
-        }
-
-        else {
-
-            thisMovie += value[i];
-
-        }
-    }
-
-    var omdbURL = 'http://www.omdbapi.com/?apikey=eb3fa0d5&' + thisMovie;
-
-    if (thisMovie === undefined) {
-        thisMovie = "Mr. Nobody";
-    }
-
-    request(omdbURL, function (error, response, body) {
-        console.log("Title: " + JSON.parse(body).Title);
-        console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-        console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
-        console.log("Country: " + JSON.parse(body).Country);
-        console.log("Language: " + JSON.parse(body).Language);
-        console.log("Actors: " + JSON.parse(body).Actors);
-        console.log("Plot: " + JSON.parse(body).Plot);
-    });
+        request('http://www.omdbapi.com/?apikey=eb3fa0d5&t=' + value,
+            function (error, response, body) {
+                console.log("Title: " + JSON.parse(body).Title);
+                console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+                console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
+                console.log("Country: " + JSON.parse(body).Country);
+                console.log("Language: " + JSON.parse(body).Language);
+                console.log("Actors: " + JSON.parse(body).Actors);
+                console.log("Plot: " + JSON.parse(body).Plot);
+            });
+    
 
 };
 
@@ -111,7 +88,7 @@ function thisSong(trackName) {
     var spotify = new Spotify({
         id: process.env.SPOTIFY_ID,
         secret: process.env.SPOTIFY_SECRET
-      });
+    });
 
     if (trackName === undefined) {
         trackname = "The Sign";
