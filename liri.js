@@ -68,6 +68,11 @@ function myTweets() {
 //If "movie-this" is called, request to grab OMDB info: 
 function thisMovie() {
 
+    if (value !== ""){
+        value = "Mr. Nobody";
+        'http://www.omdbapi.com/?apikey=eb3fa0d5&t=' + value;
+    }
+
         request('http://www.omdbapi.com/?apikey=eb3fa0d5&t=' + value,
             function (error, response, body) {
                 console.log("Title: " + JSON.parse(body).Title);
