@@ -45,7 +45,12 @@ switch (liriCommand) {
 //If "my-tweets" is called, this function is used:
 function myTweets() {
 
-    var client = new Twitter(keys.twitter);
+    var client = new Twitter({
+        consumer_key: process.env.TWITTER_CONSUMER_KEY,
+        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+        access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+        access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+    });
 
     var params = { screen_name: 'thehodge36', count: 10 };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
@@ -98,7 +103,10 @@ function thisMovie(value) {
 //If "spotify-this-song" is called, this function is used:
 function thisSong(trackName) {
 
-    var spotify = new Spotify(keys.spotify);
+    var spotify = new Spotify({
+        id: process.env.SPOTIFY_ID,
+        secret: process.env.SPOTIFY_SECRET
+      });
 
     if (trackName === undefined) {
         trackname = "The Sign";
