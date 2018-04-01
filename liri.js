@@ -52,11 +52,16 @@ function myTweets() {
         access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
     });
 
-    var params = { screen_name: 'thehodge36', count: 10 };
+    var params = { screen_name: 'thehodge36'};
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
         if (!error) {
-            console.log(tweets);
-        }
+            for (var i = 0; i < tweets.length; i++) {
+                console.log("--------");
+                console.log("Created at: " + tweets[i].created_at);
+                console.log("Text: " + tweets[i].text);
+                console.log("--------");
+              }        
+            }
     });
 };
 
