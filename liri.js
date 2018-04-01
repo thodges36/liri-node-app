@@ -15,7 +15,7 @@ var dataKeys = require("./keys.js");
 var fs = require('fs');
 var request = require("request");
 var Twitter = require("twitter");
-var spotify = require("node-spotify-api");
+var Spotify = require("node-spotify-api");
 
 
 // The first will be the liri command
@@ -72,7 +72,6 @@ function thisMovie() {
         value = "Mr. Nobody";
         'http://www.omdbapi.com/?apikey=eb3fa0d5&t=' + value;
     }
-
         request('http://www.omdbapi.com/?apikey=eb3fa0d5&t=' + value,
             function (error, response, body) {
                 console.log("Title: " + JSON.parse(body).Title);
@@ -83,27 +82,25 @@ function thisMovie() {
                 console.log("Actors: " + JSON.parse(body).Actors);
                 console.log("Plot: " + JSON.parse(body).Plot);
             });
-    
-
 };
 
 //If "spotify-this-song" is called, this function is used:
-function thisSong(trackName) {
+function thisSong() {
 
     var spotify = new Spotify({
         id: process.env.SPOTIFY_ID,
         secret: process.env.SPOTIFY_SECRET
     });
 
-    if (trackName === undefined) {
-        trackname = "The Sign";
-    }
-    spotify.search({ type: 'track', query: trackName }, function (err, data) {
+    spotify.search({ type: 'track', limit: 1, query: value }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
 
-        console.log(data);
+        console.log("Artist: " + data.tracks.items[0].album.artists[0].name);
+        console.log("Song preview: " + data.tracks.items[0].album.artists[0].external_urls.spotify);
+        console.log("Album name: " + data.tracks.items[0].album.name);
+        console.log("Song title: " + data.tracks.items[0].name);
     });
 };
 
