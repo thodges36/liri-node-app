@@ -3,7 +3,7 @@
 //functions: find song from spotify and display info; find latest tweets and display; find movie info and display; do what it says
 
 //Must be able to: 
-//`my-tweets`; `spotify-this-song`; `movie-this`
+//`my-tweets`; `spotify-this-song`; `movie-this`; do-what-it-says
 
 //Set environment variables with dotenv package
 require("dotenv").config();
@@ -92,7 +92,7 @@ function thisSong(song) {
         secret: process.env.SPOTIFY_SECRET
     });
 
-    // If no song is provided, LIRI defaults to 'The Sign' by Ace Of Base
+    // If no song is provided, default to 'The Sign' by Ace Of Base
     if (song === '') {
         search = 'The Sign';
     } else {
@@ -121,14 +121,8 @@ function doWhatItSays() {
             return console.log(err);
         }
 
-        // Break the string down by comma separation and store the contents into the output array.
-        var output = data.split(",");
+        value = data;
+        console.log(data);
 
-        // Loop Through the newly created output array
-        for (var i = 0; i < output.length; i++) {
-
-            // Print each element (item) of the array/
-            console.log(output[i]);
-        }
     });
 };
